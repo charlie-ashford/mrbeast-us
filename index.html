@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MrBeast vs US Population</title>
+    <script src="https://cdn.jsdelivr.net/npm/odometer@0.4.8/odometer.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/odometer@0.4.8/themes/odometer-theme-default.css"
+      rel="stylesheet"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700&family=Open+Sans:wght@400;600&family=Source+Code+Pro:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: radial-gradient(circle at center, #1b1a24 0%, #121119 80%);
+        color: #e5e7eb;
+        font-family: "Open Sans", sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        box-sizing: border-box;
+      }
+
+      header {
+        text-align: center;
+        margin: 70px 20px 40px;
+      }
+
+      header h1 {
+        font-family: "Nunito Sans", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.5px;
+      }
+
+      .counters-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        max-width: 1100px;
+        gap: 50px;
+        padding: 0 20px 50px;
+        box-sizing: border-box;
+      }
+
+      .row {
+        display: flex;
+        width: 100%;
+        gap: 50px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      .counter-card {
+        flex: 1 1 300px;
+        min-width: 280px;
+        background: linear-gradient(135deg, #252434, #1f1e2c);
+        border-radius: 10px;
+        border: 1px solid #2f2e3f;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+        padding: 40px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .counter-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      }
+
+      .label {
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        color: #9ca0af;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+      }
+
+      .counter {
+        font-family: "Source Code Pro", monospace;
+        font-size: 3.5rem;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.1;
+      }
+
+      .us {
+        color: #ff6b6b;
+      }
+
+      .mrbeast {
+        color: #6baaff;
+      }
+
+      .gap {
+        color: #f9fafb;
+      }
+
+      .sources {
+        font-size: 0.9rem;
+        color: #a1a4af;
+        text-align: center;
+        margin-bottom: 40px;
+        line-height: 1.4;
+        max-width: 600px;
+        padding: 0 20px;
+      }
+
+      .sources a {
+        color: #a1a4af;
+        text-decoration: none;
+        border-bottom: 1px dashed #a1a4af;
+      }
+
+      .sources a:hover {
+        color: #e5e7eb;
+        border-bottom-color: #e5e7eb;
+      }
+
+      @media (max-width: 900px) {
+        .row {
+          gap: 40px;
+        }
+
+        .counter {
+          font-size: 3rem;
+        }
+
+        .label {
+          font-size: 1rem;
+        }
+
+        header h1 {
+          font-size: 3rem;
+        }
+
+        .counters-container {
+          gap: 40px;
+          padding: 0 20px 40px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>MrBeast vs US Population</h1>
+    </header>
+
+    <div class="counters-container">
+      <div class="row">
+        <div class="counter-card">
+          <div class="label">US Population</div>
+          <div
+            id="populationCounter"
+            class="counter us odometer"
+            data-odometer-format="(,ddd)"
+          >
+            0
+          </div>
+        </div>
+        <div class="counter-card">
+          <div class="label">MrBeast Subscribers</div>
+          <div
+            id="mrbeastCounter"
+            class="counter mrbeast odometer"
+            data-odometer-format="(,ddd)"
+          >
+            0
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="counter-card" style="max-width: 500px">
+          <div class="label">Gap</div>
+          <div
+            id="gapCounter"
+            class="counter gap odometer"
+            data-odometer-format="(,ddd)"
+          >
+            0
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sources">
+        <b>Data sources:</b>
+        <br />
+        US Population from the
+        <a href="https://www.census.gov/popclock/">U.S. Census Bureau</a>
+        <br />
+        MrBeast Subscriber Count from
+        <a href="https://mrbeast.subscribercount.app/data"
+          >mrbeast.subscribercount.app</a
+        >
+        <br /> <br />
+        <span id="lastUpdated"><b>Last updated:</b> Not available</span>
+      </div>
+      
+    <script>
+      const mrbeastCounterEl = document.getElementById("mrbeastCounter");
+      const populationCounterEl = document.getElementById("populationCounter");
+      const gapCounterEl = document.getElementById("gapCounter");
+
+      let lastUSPopulation = 0;
+      let lastMrBeastSubs = 0;
+
+      const lastUpdatedEl = document.getElementById("lastUpdated");
+
+      function formatLocalTime() {
+        const now = new Date();
+        return now.toLocaleString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        });
+      }
+
+      async function fetchCounterData(url, fallbackValue) {
+        try {
+          const response = await fetch(url);
+          if (!response.ok)
+            throw new Error(`HTTP error! status: ${response.status}`);
+          return await response.json();
+        } catch (error) {
+          console.error(`Error fetching data from ${url}:`, error);
+          return fallbackValue;
+        }
+      }
+
+      async function fetchMrBeastSubscribers() {
+        const fallbackValue = 334735155 + Math.floor(Math.random() * 1000);
+        const data = await fetchCounterData(
+          "https://mrbeast.subscribercount.app/data",
+          { mrbeast: fallbackValue }
+        );
+        return data.mrbeast;
+      }
+
+      async function fetchUSPopulation() {
+        const fallbackValue = 334735155 + Math.floor(Math.random() * 1000);
+        const timestamp = Math.floor(Date.now() / 1000);
+        const url = `https://www.census.gov/popclock/data/population.php/us?_=${timestamp}`;
+        const data = await fetchCounterData(url, {
+          us: { population: fallbackValue },
+        });
+        return data.us.population;
+      }
+
+      async function initialLoad() {
+        const [usPopulation, mrbeastSubs] = await Promise.all([
+          fetchUSPopulation(),
+          fetchMrBeastSubscribers(),
+        ]);
+        lastUSPopulation = usPopulation;
+        lastMrBeastSubs = mrbeastSubs;
+
+        populationCounterEl.innerHTML = usPopulation;
+        mrbeastCounterEl.innerHTML = mrbeastSubs;
+        gapCounterEl.innerHTML = Math.abs(usPopulation - mrbeastSubs);
+      }
+
+      async function updateData() {
+        const [usPopulation, mrbeastSubs] = await Promise.all([
+          fetchUSPopulation(),
+          fetchMrBeastSubscribers(),
+        ]);
+
+        populationCounterEl.innerHTML = usPopulation;
+        mrbeastCounterEl.innerHTML = mrbeastSubs;
+        gapCounterEl.innerHTML = Math.abs(usPopulation - mrbeastSubs);
+
+        lastUSPopulation = usPopulation;
+        lastMrBeastSubs = mrbeastSubs;
+
+        lastUpdatedEl.innerHTML = `<b>Last updated:</b> ${formatLocalTime()}`;
+      }
+
+      initialLoad()
+        .then(() => {
+          lastUpdatedEl.innerHTML = `<b>Last updated:</b> ${formatLocalTime()}`;
+          setInterval(updateData, 5000);
+        })
+        .catch(console.error);
+    </script>
+  </body>
+</html>
