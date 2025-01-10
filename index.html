@@ -9,6 +9,11 @@
       href="https://cdn.jsdelivr.net/npm/odometer@0.4.8/themes/odometer-theme-default.css"
       rel="stylesheet"
     />
+    <link
+      rel="icon"
+      href="https://api.communitrics.com/youtube/profile?channel=@mrbeast"
+      type="image/png"
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link
@@ -197,19 +202,20 @@
     </div>
 
     <div class="sources">
-        <b>Data sources:</b>
-        <br />
-        US Population from the
-        <a href="https://www.census.gov/popclock/">U.S. Census Bureau</a>
-        <br />
-        MrBeast Subscriber Count from
-        <a href="https://mrbeast.subscribercount.app/data"
-          >mrbeast.subscribercount.app</a
-        >
-        <br /> <br />
-        <span id="lastUpdated"><b>Last updated:</b> Not available</span>
-      </div>
-      
+      <b>Data sources:</b>
+      <br />
+      US Population from the
+      <a href="https://www.census.gov/popclock/">U.S. Census Bureau</a>
+      <br />
+      MrBeast Subscriber Count from
+      <a href="https://mrbeast.subscribercount.app/data"
+        >mrbeast.subscribercount.app</a
+      >
+      <br />
+      <br />
+      <span id="lastUpdated"><b>Last updated:</b> Not available</span>
+    </div>
+
     <script>
       const mrbeastCounterEl = document.getElementById("mrbeastCounter");
       const populationCounterEl = document.getElementById("populationCounter");
