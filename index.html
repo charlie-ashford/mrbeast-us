@@ -22,83 +22,82 @@
     />
 
     <style>
-      body {
+      * {
         margin: 0;
         padding: 0;
-        background: radial-gradient(circle at center, #1b1a24 0%, #121119 80%);
-        color: #e5e7eb;
-        font-family: "Open Sans", sans-serif;
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+        font-family: 'Open Sans', sans-serif;
+      }
+      body {
+        background: radial-gradient(circle at top left, #1b1a24 0%, #121119 80%);
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        min-height: 100vh;
-        box-sizing: border-box;
+        color: #e5e7eb;
+        line-height: 1.6;
       }
 
       header {
-        text-align: center;
         margin: 70px 20px 40px;
+        text-align: center;
       }
-
       header h1 {
-        font-family: "Nunito Sans", sans-serif;
+        font-family: 'Nunito Sans', sans-serif;
         font-size: 3.5rem;
-        font-weight: 700;
-        margin: 0;
         letter-spacing: -0.5px;
+        margin-bottom: 10px;
       }
 
       .counters-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
         width: 100%;
         max-width: 1100px;
-        gap: 50px;
         padding: 0 20px 50px;
-        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        gap: 50px;
       }
 
       .row {
         display: flex;
-        width: 100%;
-        gap: 50px;
         justify-content: center;
         flex-wrap: wrap;
+        gap: 50px;
       }
 
       .counter-card {
-        flex: 1 1 300px;
-        min-width: 280px;
         background: linear-gradient(135deg, #252434, #1f1e2c);
-        border-radius: 10px;
         border: 1px solid #2f2e3f;
+        border-radius: 10px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
         padding: 40px;
         text-align: center;
+        flex: 1 1 300px;
+        min-width: 280px;
         transition: transform 0.3s ease, box-shadow 0.3s ease;
       }
-
       .counter-card:hover {
-        transform: translateY(-2px);
+        transform: translateY(-1px);
         box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
       }
 
       .label {
         font-size: 1.1rem;
         font-weight: 600;
-        text-transform: uppercase;
-        color: #9ca0af;
-        margin-bottom: 15px;
         letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        color: #9ca0af;
       }
 
       .counter {
-        font-family: "Source Code Pro", monospace;
+        font-family: 'Source Code Pro', monospace;
         font-size: 3.5rem;
         font-weight: 700;
-        margin: 0;
         line-height: 1.1;
       }
 
@@ -123,38 +122,33 @@
         max-width: 600px;
         padding: 0 20px;
       }
-
       .sources a {
-        color: #a1a4af;
+        color: inherit;
         text-decoration: none;
-        border-bottom: 1px dashed #a1a4af;
+        border-bottom: 1px dotted #a1a4af;
+        transition: color 0.3s ease, border-bottom-color 0.3s ease;
       }
-
       .sources a:hover {
         color: #e5e7eb;
         border-bottom-color: #e5e7eb;
       }
 
       @media (max-width: 900px) {
-        .row {
-          gap: 40px;
-        }
-
-        .counter {
-          font-size: 3rem;
-        }
-
-        .label {
-          font-size: 1rem;
-        }
-
         header h1 {
           font-size: 3rem;
         }
-
+        .counter {
+          font-size: 3rem;
+        }
+        .label {
+          font-size: 1rem;
+        }
         .counters-container {
           gap: 40px;
           padding: 0 20px 40px;
+        }
+        .row {
+          gap: 40px;
         }
       }
     </style>
@@ -202,29 +196,33 @@
     </div>
 
     <div class="sources">
-      <b>Data sources:</b>
+      <strong>Data sources:</strong>
       <br />
       US Population from the
-      <a href="https://www.census.gov/popclock/">U.S. Census Bureau</a>
-      <br />
-      MrBeast Subscriber Count from
-      <a href="https://mrbeast.subscribercount.app/data"
-        >mrbeast.subscribercount.app</a
+      <a href="https://www.census.gov/popclock/" target="_blank"
+        >U.S. Census Bureau</a
       >
       <br />
-      <br />
-      <span id="lastUpdated"><b>Last updated:</b> Not available</span>
+      MrBeast Subscriber Count from
+      <a href="https://mrbeast.subscribercount.app/data" target="_blank"
+        >mrbeast.subscribercount.app</a
+      >
+      <br /><br />
+      <span id="lastUpdated"
+        ><strong>Last updated:</strong> Not available</span
+      >
     </div>
 
     <script>
       const mrbeastCounterEl = document.getElementById("mrbeastCounter");
-      const populationCounterEl = document.getElementById("populationCounter");
+      const populationCounterEl = document.getElementById(
+        "populationCounter"
+      );
       const gapCounterEl = document.getElementById("gapCounter");
+      const lastUpdatedEl = document.getElementById("lastUpdated");
 
       let lastUSPopulation = 0;
       let lastMrBeastSubs = 0;
-
-      const lastUpdatedEl = document.getElementById("lastUpdated");
 
       function formatLocalTime() {
         const now = new Date();
@@ -234,7 +232,7 @@
           day: "numeric",
           hour: "2-digit",
           minute: "2-digit",
-          second: "2-digit",
+          second: "2-digit"
         });
       }
 
@@ -264,7 +262,7 @@
         const timestamp = Math.floor(Date.now() / 1000);
         const url = `https://www.census.gov/popclock/data/population.php/us?_=${timestamp}`;
         const data = await fetchCounterData(url, {
-          us: { population: fallbackValue },
+          us: { population: fallbackValue }
         });
         return data.us.population;
       }
@@ -272,35 +270,38 @@
       async function initialLoad() {
         const [usPopulation, mrbeastSubs] = await Promise.all([
           fetchUSPopulation(),
-          fetchMrBeastSubscribers(),
+          fetchMrBeastSubscribers()
         ]);
         lastUSPopulation = usPopulation;
         lastMrBeastSubs = mrbeastSubs;
 
         populationCounterEl.innerHTML = usPopulation;
         mrbeastCounterEl.innerHTML = mrbeastSubs;
-        gapCounterEl.innerHTML = Math.abs(usPopulation - mrbeastSubs);
+        gapCounterEl.innerHTML = Math.abs(
+          usPopulation - mrbeastSubs
+        );
       }
 
       async function updateData() {
         const [usPopulation, mrbeastSubs] = await Promise.all([
           fetchUSPopulation(),
-          fetchMrBeastSubscribers(),
+          fetchMrBeastSubscribers()
         ]);
 
         populationCounterEl.innerHTML = usPopulation;
         mrbeastCounterEl.innerHTML = mrbeastSubs;
-        gapCounterEl.innerHTML = Math.abs(usPopulation - mrbeastSubs);
+        gapCounterEl.innerHTML = Math.abs(
+          usPopulation - mrbeastSubs
+        );
 
         lastUSPopulation = usPopulation;
         lastMrBeastSubs = mrbeastSubs;
-
-        lastUpdatedEl.innerHTML = `<b>Last updated:</b> ${formatLocalTime()}`;
+        lastUpdatedEl.innerHTML = `<strong>Last updated:</strong> ${formatLocalTime()}`;
       }
 
       initialLoad()
         .then(() => {
-          lastUpdatedEl.innerHTML = `<b>Last updated:</b> ${formatLocalTime()}`;
+          lastUpdatedEl.innerHTML = `<strong>Last updated:</strong> ${formatLocalTime()}`;
           setInterval(updateData, 5000);
         })
         .catch(console.error);
